@@ -16,9 +16,32 @@
     .info-label { color: #64748b; font-size: 14px; }
     .info-value { font-weight: 500; color: #1e293b; font-size: 14px; }
     .btn-actions { display: flex; gap: 12px; margin-top: 24px; }
+    .btn-prescription {
+        background: #3A7D5C;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        transition: opacity 0.2s;
+    }
+    .btn-prescription:hover { opacity: 0.9; }
 </style>
 
-<div class="show-container">
+<div class="patient-details" style="padding: 24px; max-width: 1200px; margin: 0 auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h1 style="font-size: 24px; font-weight: 700; color: #111827;">Détails du Patient</h1>
+        <div style="display: flex; gap: 12px;">
+            <a href="{{ route('prescriptions.create', ['patient_id' => $patient->id]) }}" class="btn-prescription">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px;"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+                Nouvelle Ordonnance
+            </a>
+            <a href="{{ route('patients.edit', $patient->id) }}" class="btn-prescription" style="background: #2563eb;">Modifier</a>
+        </div>
+    </div>
     <div class="header-info">
         <img src="{{ asset($patient->photo ?? 'asset/img/default-avatar.png') }}" class="avatar-large">
         <div style="flex: 1;">
@@ -29,9 +52,6 @@
                 </span>
             </div>
             <p style="color: #64748b; margin-top: 4px;">CIN: {{ $patient->cin ?? 'N/A' }} | Date de naissance: {{ \Carbon\Carbon::parse($patient->birth_date)->format('d/m/Y') }}</p>
-            <div class="btn-actions">
-                <a href="{{ route('patients.edit', $patient->id) }}" class="btn btn-primary" style="text-decoration: none; padding: 8px 16px;">Modifier le dossier</a>
-                <a href="{{ route('patients.index') }}" class="btn btn-secondary" style="text-decoration: none; padding: 8px 16px;">Retour</a>
             </div>
         </div>
     </div>

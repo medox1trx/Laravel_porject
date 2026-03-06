@@ -136,8 +136,8 @@
                 </a>
 
                 <a
-                    href="{{ url('/ordonnances') }}"
-                    class="nav-item {{ request()->is('ordonnances') ? 'active' : '' }}">
+                    href="{{ route('prescriptions.index') }}"
+                    class="nav-item {{ request()->is('prescriptions*') ? 'active' : '' }}">
                     <span class="nav-icon">
                         <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
@@ -161,15 +161,14 @@
                 </a>
 
                 <a
-                    href="{{ url('/messages') }}"
-                    class="nav-item {{ request()->is('messages') ? 'active' : '' }}">
+                    href="{{ route('chat.index') }}"
+                    class="nav-item {{ request()->is('chat*') ? 'active' : '' }}">
                     <span class="nav-icon">
                         <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
                         </svg>
                     </span>
-                    <span class="nav-label">Messages</span>
-                    <span class="nav-badge warn">3</span>
+                    <span class="nav-label">Discussion Groupe</span>
                 </a>
 
                 @if(auth()->check() && auth()->user()->role === 'admin')

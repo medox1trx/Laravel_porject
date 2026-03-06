@@ -59,4 +59,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class);
     }
+
+    // Relation avec Messages
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    public function prescriptions()
+    {
+        return $this->hasMany(Prescription::class , 'doctor_id');
+    }
 }
