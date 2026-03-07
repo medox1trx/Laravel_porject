@@ -44,4 +44,21 @@ class ProfileController extends Controller
 
         return redirect()->back()->with('success', 'Profile updated successfully!');
     }
+
+    public function destroyPhoto()
+    {
+        $user = Auth::user();
+
+        if ($user->profile_photo) {
+            $photoPath = public_path('profiles/' . $user->profile_photo);
+            if (File::exists($photoPath)) {
+                File::delete($photoPath);
+            }
+
+            $user->update(['profile_photo' => null]);
+            return redirect()->back()->with('success', 'Photo de profil supprimée avec succès.');
+        }
+
+        return redirect()->back()->with('error', 'Aucune photo de profil à supprimer.');
+    }
 }

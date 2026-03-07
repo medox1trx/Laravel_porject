@@ -18,18 +18,17 @@
     @endif
 
     <div class="profile-card">
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="profile-grid">
-                <!-- Photo de Profil -->
-                <div class="photo-section">
-                    <h3>Photo de profil</h3>
-                    @if($user->profile_photo)
-                        <img src="{{ asset('profiles/' . $user->profile_photo) }}" alt="Photo de profil" class="current-photo" id="photo-preview">
-                    @else
-                        <div class="photo-placeholder" id="photo-preview">{{ strtoupper(substr($user->name, 0, 2)) }}</div>
-                    @endif
-                    
+        <div class="profile-grid">
+            <!-- Photo de Profil -->
+            <div class="photo-section">
+                <h3>Photo de profil</h3>
+                @if($user->profile_photo)
+                    <img src="{{ asset('profiles/' . $user->profile_photo) }}" alt="Photo de profil" class="current-photo" id="photo-preview">
+                @else
+                    <div class="photo-placeholder" id="photo-preview">{{ strtoupper(substr($user->name, 0, 2)) }}</div>
+                @endif
+                
+                <div class="photo-actions">
                     <label for="profile_photo" class="upload-btn">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 5px;">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -38,16 +37,36 @@
                         </svg>
                         Modifier la photo
                     </label>
-                    <input type="file" name="profile_photo" id="profile_photo" onchange="previewImage(this)">
-                    @error('profile_photo')
-                        <div class="error-message">{{ $message }}</div>
-                    @enderror
-                </div>
 
-                <!-- Informations Personnelles -->
-                <div class="form-section">
+                    @if($user->profile_photo)
+                        <form action="{{ route('profile.photo.delete_action') }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre photo de profil ?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="delete-photo-btn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 5px;">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                </svg>
+                                Supprimer la photo
+                            </button>
+                        </form>
+                    @endif
+                </div>
+                @error('profile_photo')
+                    <div class="error-message">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Informations Personnelles -->
+            <div class="form-section">
+                <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <h3>Informations personnelles</h3>
                     
+                    <input type="file" name="profile_photo" id="profile_photo" onchange="previewImage(this)" style="display: none;">
+
                     <div class="form-group">
                         <label for="name">Nom complet</label>
                         <input type="text" name="name" id="name" class="form-input @error('name') is-invalid @enderror" value="{{ old('name', $user->name) }}" required>
@@ -80,10 +99,10 @@
                         @enderror
                     </div>
 
-                    <button type="submit" class="submit-btn">Enregistrer les modifications</button>
-                </div>
+                    <button type="submit" class="submit-btn" style="margin-top: 2rem;">Enregistrer les modifications</button>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 

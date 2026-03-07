@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
         // Profile Management
         Route::get('/profile', [ProfileController::class , 'edit'])->name('profile.edit');
         Route::post('/profile', [ProfileController::class , 'update'])->name('profile.update');
+        Route::delete('/profile-photo-delete', [ProfileController::class , 'destroyPhoto'])->name('profile.photo.delete_action');
 
         Route::get('/patients/list', [PatientController::class , 'listAll'])
             ->name('patients.dashboardPatient.listAll');
