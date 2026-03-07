@@ -192,10 +192,11 @@ class PatientController extends Controller
     }
 
     public function listAll()
-    {
-        $patients = Patient::latest()->get();
-        return view('patients.list_all', compact('patients'));
-    }
+{
+    $patients = Patient::latest()->get();
+
+    return view('patients.dashboardPatient.listAll', compact('patients'));
+}
 
     public function show($id)
     {
