@@ -10,9 +10,9 @@ class Notification extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',    // FK vers User
+        'user_id', // FK vers User
         'message',
-        'read',       // booléen pour marquer lu/non-lu
+        'is_read', // booléen pour marquer lu/non-lu
     ];
 
     // Une notification appartient à un User

@@ -16,7 +16,7 @@ class NotificationSeeder extends Seeder
             Notification::create([
                 'user_id' => $user->id,
                 'message' => 'Bienvenue sur le système de gestion des rendez-vous !',
-                'read' => false,
+                'is_read' => false,
             ]);
         }
     }
