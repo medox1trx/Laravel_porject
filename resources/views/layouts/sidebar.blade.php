@@ -17,6 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link rel="icon" type="image/svg+xml" href="{{ asset('asset/img/logo.svg') }}">
+        @stack('styles')
         <title>MediCal — @yield('title', 'Tableau de bord')</title>
     </head>
     <body>
@@ -184,8 +185,8 @@
                 <span class="nav-section-label">Paramètres</span>
 
                 <a
-                    href="{{ url('/settings') }}"
-                    class="nav-item {{ request()->is('settings') ? 'active' : '' }}">
+                    href="{{ route('settings.index') }}"
+                    class="nav-item {{ request()->routeIs('settings.*') ? 'active' : '' }}">
                     <span class="nav-icon">
                         <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="12" cy="12" r="3"/>

@@ -11,6 +11,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DossierController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Middleware\AdminOnly;
 use App\Models\User;
 
@@ -27,47 +28,52 @@ Route::post('/logout', [AuthController::class , 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class , 'index'])->name('dashboard');
 
-        // Routes pour les doctors
-        Route::resource('doctors', DoctorController::class);
+    // Routes pour les doctors
+    Route::resource('doctors', DoctorController::class);
 
-        // Routes pour les patients
-        Route::post('/patients/store', [PatientController::class , 'store'])->name('patients.store');
-        // Route personnalisée pour listAll
-        Route::get('/patients/listAll', [PatientController::class , 'listAll'])
-            ->name('patients.dashboardPatient.listAll');
-        Route::resource('patients', PatientController::class);
+    // Routes pour les patients
+    Route::post('/patients/store', [PatientController::class , 'store'])->name('patients.store');
+    // Route personnalisée pour listAll
+    Route::get('/patients/listAll', [PatientController::class , 'listAll'])
+        ->name('patients.dashboardPatient.listAll');
+    Route::resource('patients', PatientController::class);
 
-        // Routes pour les appointments
-        // Routes pour les appointments (Agenda)
-        Route::get('/agenda', [AppointmentController::class , 'index'])->name('agenda.index');
-        Route::get('/appointments/create', [AppointmentController::class , 'create'])->name('appointments.create');
-        Route::get('/api/appointments', [AppointmentController::class , 'getAppointments'])->name('api.appointments');
-        Route::get('/api/appointments/monthly-status', [AppointmentController::class , 'getMonthlyStatus'])->name('api.appointments.monthly-status');
-        Route::post('/appointments/store', [AppointmentController::class , 'store'])->name('appointments.store');
-        Route::post('/appointments/{appointment}/update', [AppointmentController::class , 'update'])->name('appointments.update');
-        Route::delete('/appointments/{appointment}', [AppointmentController::class , 'destroy'])->name('appointments.destroy');
+    // Routes pour les appointments
+    // Routes pour les appointments (Agenda)
+    Route::get('/agenda', [AppointmentController::class , 'index'])->name('agenda.index');
+    Route::get('/appointments/create', [AppointmentController::class , 'create'])->name('appointments.create');
+    Route::get('/api/appointments', [AppointmentController::class , 'getAppointments'])->name('api.appointments');
+    Route::get('/api/appointments/monthly-status', [AppointmentController::class , 'getMonthlyStatus'])->name('api.appointments.monthly-status');
+    Route::post('/appointments/store', [AppointmentController::class , 'store'])->name('appointments.store');
+    Route::post('/appointments/{appointment}/update', [AppointmentController::class , 'update'])->name('appointments.update');
+    Route::delete('/appointments/{appointment}', [AppointmentController::class , 'destroy'])->name('appointments.destroy');
 
-        // Profile Management
-        Route::get('/profile', [ProfileController::class , 'edit'])->name('profile.edit');
-        Route::post('/profile', [ProfileController::class , 'update'])->name('profile.update');
-        Route::delete('/profile-photo-delete', [ProfileController::class , 'destroyPhoto'])->name('profile.photo.delete_action');
+    // Profile Management
+    Route::get('/profile', [ProfileController::class , 'edit'])->name('profile.edit');
+    Route::post('/profile', [ProfileController::class , 'update'])->name('profile.update');
+    Route::delete('/profile-photo-delete', [ProfileController::class , 'destroyPhoto'])->name('profile.photo.delete_action');
 
-        // Group Chat Routes
-        Route::get('/chat', [ChatController::class , 'index'])->name('chat.index');
-        Route::get('/chat/messages', [ChatController::class , 'fetchMessages'])->name('chat.messages');
-        Route::post('/chat/messages', [ChatController::class , 'store'])->name('chat.store');
+    // Group Chat Routes
+    Route::get('/chat', [ChatController::class , 'index'])->name('chat.index');
+    Route::get('/chat/messages', [ChatController::class , 'fetchMessages'])->name('chat.messages');
+    Route::post('/chat/messages', [ChatController::class , 'store'])->name('chat.store');
 
-        // Prescription Routes
-        Route::resource('prescriptions', PrescriptionController::class);
-        Route::get('/prescriptions/{id}/print', [PrescriptionController::class , 'print'])->name('prescriptions.print');
+    // Prescription Routes
+    Route::resource('prescriptions', PrescriptionController::class);
+    Route::get('/prescriptions/{id}/print', [PrescriptionController::class , 'print'])->name('prescriptions.print');
 
-        // Dossiers Routes
-        Route::get('/dossiers', [DossierController::class, 'index'])->name('dossiers.index');
+    // Dossiers Routes
+    Route::get('/dossiers', [DossierController::class , 'index'])->name('dossiers.index');
 
-        // Gestion des utilisateurs (admin only)
-        Route::middleware([AdminOnly::class])->group(function () {
+    // Settings Routes
+    Route::get('/settings', [SettingsController::class , 'index'])->name('settings.index');
+    Route::post('/settings', [SettingsController::class , 'update'])->name('settings.update');
+
+    // Gestion des utilisateurs (admin only)
+    Route::middleware([AdminOnly::class])->group(function () {
             Route::resource('utilisateurs', UtilisateursController::class);
         }
-        );    });
+        );
+    });
