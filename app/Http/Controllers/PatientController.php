@@ -28,17 +28,30 @@ class PatientController extends Controller
         // Total patients
         $totalPatients = Patient::count();
 
-        // Patients ajoutés aujourd'hui
-        $patientsPlannedToday = Patient::whereDate('created_at', today())->count();
+        // Rendez-vous planifiés aujourd'hui (liste complète pour affichage inline)
+        $appointmentsPlanned = \App\Models\Appointment::with(['patient', 'doctor'])
+            ->whereDate('date', today()->toDateString())
+            ->where('status', 'planned')
+            ->orderBy('start_time')
+            ->get();
 
-        // Patients consultés aujourd'hui (temporaire)
-        $patientsConsultedToday = 0;
+        // Rendez-vous consultés aujourd'hui (liste complète pour affichage inline)
+        $appointmentsConsulted = \App\Models\Appointment::with(['patient', 'doctor'])
+            ->whereDate('date', today()->toDateString())
+            ->where('status', 'completed')
+            ->orderBy('start_time')
+            ->get();
+
+        $patientsPlannedToday = $appointmentsPlanned->count();
+        $patientsConsultedToday = $appointmentsConsulted->count();
 
         return view('patients.index', compact(
             'patients',
             'totalPatients',
             'patientsPlannedToday',
-            'patientsConsultedToday'
+            'patientsConsultedToday',
+            'appointmentsPlanned',
+            'appointmentsConsulted'
         ));
     }
 

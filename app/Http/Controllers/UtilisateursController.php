@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -52,9 +53,22 @@ class UtilisateursController extends Controller
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => ['required', 'in:admin,doctor,nurse,secretary'],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'specialty' => ['required_if:role,doctor', 'nullable', 'string', 'max:255'],
         ]);
 
-        User::create($validated);
+        $user = User::create($validated);
+
+        if ($user->role === 'doctor') {
+            $nameParts = explode(' ', $user->name, 2);
+            Doctor::create([
+                'first_name' => $nameParts[0],
+                'last_name' => $nameParts[1] ?? '',
+                'specialty' => $request->specialty,
+                'phone' => $request->phone ?? '',
+                'email' => $user->email,
+            ]);
+        }
 
         return redirect()->route('utilisateurs.index')
             ->with('success', 'Utilisateur créé avec succès.');
@@ -62,12 +76,20 @@ class UtilisateursController extends Controller
 
     public function show(User $utilisateur): View
     {
+        if ($utilisateur->role === 'doctor') {
+            $doctor = Doctor::where('email', $utilisateur->email)->first();
+            $utilisateur->specialty = $doctor?->specialty;
+        }
         return view('dashbord_admin.show', compact('utilisateur'));
     }
 
     public function edit(User $utilisateur): View
     {
         $roles = ['admin', 'doctor', 'nurse', 'secretary'];
+        if ($utilisateur->role === 'doctor') {
+            $doctor = Doctor::where('email', $utilisateur->email)->first();
+            $utilisateur->specialty = $doctor?->specialty;
+        }
 
         return view('dashbord_admin.edit', compact('utilisateur', 'roles'));
     }
@@ -79,13 +101,33 @@ class UtilisateursController extends Controller
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $utilisateur->id],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'role' => ['required', 'in:admin,doctor,nurse,secretary'],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'specialty' => ['required_if:role,doctor', 'nullable', 'string', 'max:255'],
         ]);
 
         if (empty($validated['password'])) {
             unset($validated['password']);
         }
 
+        $oldEmail = $utilisateur->email;
         $utilisateur->update($validated);
+
+        if ($utilisateur->role === 'doctor') {
+            $nameParts = explode(' ', $utilisateur->name, 2);
+            Doctor::updateOrCreate(
+                ['email' => $oldEmail],
+                [
+                    'first_name' => $nameParts[0],
+                    'last_name' => $nameParts[1] ?? '',
+                    'specialty' => $request->specialty,
+                    'phone' => $utilisateur->phone ?? '',
+                    'email' => $utilisateur->email,
+                ]
+            );
+        } else {
+            // If role changed from doctor to something else, remove doctor record
+            Doctor::where('email', $oldEmail)->delete();
+        }
 
         return redirect()->route('utilisateurs.index')
             ->with('success', 'Utilisateur mis à jour avec succès.');
@@ -96,6 +138,10 @@ class UtilisateursController extends Controller
         if ($utilisateur->id === auth()->id()) {
             return redirect()->route('utilisateurs.index')
                 ->with('error', 'Vous ne pouvez pas supprimer votre propre compte.');
+        }
+
+        if ($utilisateur->role === 'doctor') {
+            Doctor::where('email', $utilisateur->email)->delete();
         }
 
         $utilisateur->delete();

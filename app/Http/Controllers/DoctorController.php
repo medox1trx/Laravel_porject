@@ -4,69 +4,42 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Doctor;
+use App\Models\User;
 
 class DoctorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $doctors = Doctor::all();
+        $query = User::where('role', 'doctor');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        $doctors = $query->latest()->paginate(5);
+
+        // Link specialty from Doctor table if available (by email)
+        $emails = $doctors->pluck('email');
+        $doctorRecords = Doctor::whereIn('email', $emails)->get()->keyBy('email');
+
+        $doctors->each(function($user) use ($doctorRecords) {
+            $user->specialty = $doctorRecords->get($user->email)?->specialty ?? 'N/A';
+        });
+
         return view('doctors.index', compact('doctors'));
-    }
-
-    public function create()
-    {
-        return view('doctors.create');
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'phone' => ['required', 'regex:/^(0[67]\d{8}|212[67]\d{8})$/'],
-            'email' => 'email|max:255|unique:doctors,email',
-            'specialty' => 'required',
-        ]);
-        Doctor::create($request->all());
-        return redirect()->route('doctors.index');
     }
 
     public function show(string $id)
     {
-        $doctor = Doctor::findOrFail($id);
+        $doctor = User::where('role', 'doctor')->findOrFail($id);
+        $doctorRecord = Doctor::where('email', $doctor->email)->first();
+        $doctor->specialty = $doctorRecord ? $doctorRecord->specialty : 'N/A';
+
         return view('doctors.show', compact('doctor'));
-    }
-
-    public function edit($id)
-    {
-        $doctor = Doctor::findOrFail($id);
-        return view('doctors.edit', compact('doctor'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'phone' => ['required', 'regex:/^(0[67]\d{8}|212[67]\d{8})$/'],
-            'email' => 'email|max:255|unique:doctors,email',
-            'specialty' => 'required',
-        ]);
-        $doctor = Doctor::findOrFail($id);
-        $doctor->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'specialty' => $request->specialty,
-        ]);
-        return redirect()->route('doctors.index');
-    }
-
-    public function destroy($id)
-    {
-        $doctor = Doctor::findOrFail($id);
-        $doctor->delete();
-        return redirect()->route('doctors.index');
     }
 }

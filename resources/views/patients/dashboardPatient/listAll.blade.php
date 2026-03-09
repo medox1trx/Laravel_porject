@@ -315,34 +315,68 @@
     }
     nav p.small { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
 
-    /* Pagination personnalisée plus jolie */
-    nav .pagination {
-        display: flex;
+    /* Premium Pagination Styling */
+    .pagination-wrapper nav > div:first-child { display: none !important; }
+    .pagination-wrapper nav > div:last-child { 
+        display: flex !important; 
+        flex-direction: row-reverse !important;
+        align-items: center;
+        gap: 16px;
+    }
+    .pagination-wrapper nav p { display: none !important; }
+
+    .pagination-wrapper nav svg { width: 18px; height: 18px; }
+    
+    .pagination-wrapper ul.pagination, 
+    .pagination-wrapper nav ul,
+    .pagination-wrapper nav > div:last-child > div:last-child {
+        display: flex !important;
         list-style: none;
+        gap: 6px;
         padding: 0;
         margin: 0;
-        gap: 5px;
+        align-items: center;
     }
-    nav .pagination .page-item .page-link {
-        padding: 8px 12px;
-        border-radius: 6px;
+
+    .pagination-wrapper nav a,
+    .pagination-wrapper nav span:not(.relative) {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        min-width: 38px;
+        height: 38px;
+        padding: 0 12px;
+        border-radius: 10px;
         border: 1px solid var(--border);
-        color: var(--accent);
-        text-decoration: none;
-        transition: all var(--ease);
         background: white;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.2s var(--ease);
     }
-    nav .pagination .page-item.active .page-link {
-        background: var(--accent);
-        color: white;
-        border-color: var(--accent);
+
+    .pagination-wrapper nav span[aria-current="page"],
+    .pagination-wrapper .page-item.active .page-link {
+        background: var(--accent) !important;
+        border-color: var(--accent) !important;
+        color: white !important;
+        box-shadow: 0 4px 10px var(--accent-glow);
     }
-    nav .pagination .page-item:not(.active) .page-link:hover {
-        background: var(--accent-light);
+
+    .pagination-wrapper nav a:hover {
+        background: var(--accent-light) !important;
+        border-color: var(--accent-mid) !important;
+        color: var(--accent-dark) !important;
+        transform: translateY(-2px);
     }
-    nav .pagination .page-item.disabled .page-link {
-        color: var(--text-muted);
-        background: var(--bg-field);
+
+    .pagination-wrapper .page-item.disabled span,
+    .pagination-wrapper nav span.disabled,
+    .pagination-wrapper nav span[aria-disabled="true"] {
+        opacity: 0.4;
+        background: var(--bg-field) !important;
+        cursor: not-allowed;
     }
 </style>
 <script>

@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <div class="patient-page">
+    <!-- Page title -->
     <div class="page-title">
         <div class="page-title-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -15,7 +16,7 @@
         </div>
         <div>
             <h2>Modifier le patient</h2>
-            <span>{{ $patient->first_name }} {{ $patient->last_name }}</span>
+            <span>ID Dossier: #{{ str_pad($patient->id, 5, '0', STR_PAD_LEFT) }} — {{ $patient->first_name }} {{ $patient->last_name }}</span>
         </div>
     </div>
 
@@ -168,8 +169,14 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Mettre à jour</button>
-            <a href="{{ route('patients.index') }}" class="btn btn-secondary">Annuler</a>
+            <button type="submit" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v14a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Mettre à jour
+            </button>
+            <a href="{{ route('patients.index') }}" class="btn btn-secondary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+                Annuler
+            </a>
         </div>
     </form>
 </div>

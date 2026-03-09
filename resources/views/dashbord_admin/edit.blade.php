@@ -81,11 +81,23 @@
             </div>
           </div>
 
+          <div class="form-group" id="phone-group">
+            <label class="form-label">Téléphone</label>
+            <input type="text" name="phone" id="phone" class="form-input {{ $errors->has('phone') ? 'error' : '' }}" value="{{ old('phone', $utilisateur->phone) }}">
+            @error('phone') <div class="form-error">⚠ {{ $message }}</div> @enderror
+          </div>
+
+          <div class="form-group" id="specialty-group" style="display: none;">
+            <label class="form-label">Spécialité</label>
+            <input type="text" name="specialty" id="specialty" class="form-input {{ $errors->has('specialty') ? 'error' : '' }}" value="{{ old('specialty', $utilisateur->specialty) }}">
+            @error('specialty') <div class="form-error">⚠ {{ $message }}</div> @enderror
+          </div>
+
           <div class="form-group">
             <label class="form-label">Rôle</label>
             <div class="role-options">
               <label class="role-option">
-                <input type="radio" name="role" value="admin" {{ old('role', $utilisateur->role) === 'admin' ? 'checked' : '' }}>
+                <input type="radio" name="role" value="admin" {{ old('role', $utilisateur->role) === 'admin' ? 'checked' : '' }} onchange="toggleDoctorFields()">
                 <div class="role-option-card">
                   <span class="role-option-icon">🔐</span>
                   <div>
@@ -95,7 +107,7 @@
                 </div>
               </label>
               <label class="role-option">
-                <input type="radio" name="role" value="doctor" {{ old('role', $utilisateur->role) === 'doctor' ? 'checked' : '' }}>
+                <input type="radio" name="role" value="doctor" {{ old('role', $utilisateur->role) === 'doctor' ? 'checked' : '' }} onchange="toggleDoctorFields()">
                 <div class="role-option-card">
                   <span class="role-option-icon">🩺</span>
                   <div>
@@ -105,7 +117,7 @@
                 </div>
               </label>
               <label class="role-option">
-                <input type="radio" name="role" value="nurse" {{ old('role', $utilisateur->role) === 'nurse' ? 'checked' : '' }}>
+                <input type="radio" name="role" value="nurse" {{ old('role', $utilisateur->role) === 'nurse' ? 'checked' : '' }} onchange="toggleDoctorFields()">
                 <div class="role-option-card">
                   <span class="role-option-icon">💉</span>
                   <div>
@@ -115,7 +127,7 @@
                 </div>
               </label>
               <label class="role-option">
-                <input type="radio" name="role" value="secretary" {{ old('role', $utilisateur->role) === 'secretary' ? 'checked' : '' }}>
+                <input type="radio" name="role" value="secretary" {{ old('role', $utilisateur->role) === 'secretary' ? 'checked' : '' }} onchange="toggleDoctorFields()">
                 <div class="role-option-card">
                   <span class="role-option-icon">📋</span>
                   <div>
@@ -128,6 +140,15 @@
             @error('role') <div class="form-error">⚠ {{ $message }}</div> @enderror
           </div>
         </div>
+
+        <script>
+          function toggleDoctorFields() {
+            const role = document.querySelector('input[name="role"]:checked').value;
+            const specialtyGroup = document.getElementById('specialty-group');
+            specialtyGroup.style.display = (role === 'doctor') ? 'block' : 'none';
+          }
+          document.addEventListener('DOMContentLoaded', toggleDoctorFields);
+        </script>
 
         <div class="form-card-footer">
           <a href="{{ route('utilisateurs.index') }}" class="btn btn-outline">← Retour</a>
