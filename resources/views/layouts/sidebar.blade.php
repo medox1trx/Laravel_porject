@@ -210,8 +210,8 @@
                 </a>
 
                 <a
-                    href="{{ url('/help') }}"
-                    class="nav-item {{ request()->is('help') ? 'active' : '' }}">
+                    href="{{ route('help.index') }}"
+                    class="nav-item {{ request()->routeIs('help.*') ? 'active' : '' }}">
                     <span class="nav-icon">
                         <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="12" cy="12" r="9"/>

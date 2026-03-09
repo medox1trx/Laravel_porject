@@ -1,0 +1,335 @@
+/* ===================================================================
+   style_help.css — Page d'Aide / FAQ
+   Tokens hérités de style_sidebar.css
+=================================================================== */
+
+:root {
+    --bg-color: #f4f7f5;
+    --card-bg: #ffffff;
+    --accent: #3a7d5c;
+    --accent-hover: #2a6048;
+    --accent-light: #eaf3ee;
+    --accent-mid: #c4ddd0;
+    --text-primary: #1a2b22;
+    --text-secondary: #4a6358;
+    --text-muted: #8aad9c;
+    --border-color: #dce8e1;
+    --shadow: 0 4px 20px rgba(26, 43, 34, .08);
+    --radius-card: 16px;
+    --transition: all .3s cubic-bezier(.4, 0, .2, 1);
+}
+
+.help-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding-bottom: 4rem;
+    animation: helpFadeIn .5s ease both;
+}
+
+@keyframes helpFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─── Hero Section ───────────────────────────────────────────── */
+.help-hero {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+    border-radius: var(--radius-card);
+    color: #fff;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 8px 32px rgba(58, 125, 92, .2);
+}
+
+.help-hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    font-weight: 600;
+    margin-bottom: .75rem;
+}
+
+.help-hero p {
+    font-size: 1.1rem;
+    opacity: .9;
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+}
+
+.search-box {
+    position: relative;
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 1rem 1.5rem 1rem 3.5rem;
+    border-radius: 99px;
+    border: none;
+    background: rgba(255, 255, 255, .15);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, .6);
+}
+
+.search-box input:focus {
+    background: #fff;
+    color: var(--text-primary);
+    outline: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
+}
+
+.search-box svg {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    stroke: rgba(255, 255, 255, .6);
+    fill: none;
+    stroke-width: 2;
+    transition: var(--transition);
+}
+
+.search-box input:focus+svg {
+    stroke: var(--accent);
+}
+
+/* ─── Grid Category ─────────────────────────────────────────── */
+.help-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+}
+
+.help-cat-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.help-cat-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 30px rgba(58, 125, 92, .1);
+}
+
+.cat-icon {
+    width: 54px;
+    height: 54px;
+    background: var(--accent-light);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    transition: var(--transition);
+}
+
+.help-cat-card:hover .cat-icon {
+    background: var(--accent);
+}
+
+.cat-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--accent);
+    fill: none;
+    stroke-width: 2;
+    transition: var(--transition);
+}
+
+.help-cat-card:hover .cat-icon svg {
+    stroke: #fff;
+}
+
+.help-cat-card h3 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: .5rem;
+}
+
+.help-cat-card p {
+    font-size: .9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* ─── Accordion (FAQ) ───────────────────────────────────────── */
+.faq-section {
+    background: var(--card-bg);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    padding: 2.5rem;
+}
+
+.faq-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--accent-light);
+    padding-bottom: .75rem;
+}
+
+.faq-group {
+    margin-bottom: 2rem;
+}
+
+.faq-group:last-child {
+    margin-bottom: 0;
+}
+
+.faq-cat-label {
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--accent);
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.accordion-item {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: .75rem;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.accordion-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background: #fff;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.accordion-trigger:hover {
+    background: var(--bg-color);
+    color: var(--accent);
+}
+
+.accordion-trigger svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--text-muted);
+    fill: none;
+    stroke-width: 2.5;
+    transition: var(--transition);
+}
+
+.accordion-item.active .accordion-trigger {
+    background: var(--accent-light);
+    color: var(--accent);
+}
+
+.accordion-item.active .accordion-trigger svg {
+    transform: rotate(180deg);
+    stroke: var(--accent);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #fff;
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 300px;
+}
+
+.accordion-content p {
+    padding: 0 1.5rem 1.5rem;
+    font-size: .95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ─── Contact Banner ────────────────────────────────────────── */
+.contact-banner {
+    margin-top: 4rem;
+    padding: 2.5rem;
+    background: var(--accent-light);
+    border-radius: var(--radius-card);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.contact-text h4 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: .4rem;
+}
+
+.contact-text p {
+    color: var(--text-secondary);
+}
+
+.btn-contact {
+    padding: .85rem 1.75rem;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(58, 125, 92, .2);
+}
+
+.btn-contact:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(58, 125, 92, .3);
+}
+
+@media (max-width: 768px) {
+    .help-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .contact-banner {
+        text-align: center;
+        justify-content: center;
+    }
+}

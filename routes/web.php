@@ -12,6 +12,7 @@ use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DossierController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\HelpController;
 use App\Http\Middleware\AdminOnly;
 use App\Models\User;
 
@@ -70,6 +71,9 @@ Route::middleware(['auth'])->group(function () {
     // Settings Routes
     Route::get('/settings', [SettingsController::class , 'index'])->name('settings.index');
     Route::post('/settings', [SettingsController::class , 'update'])->name('settings.update');
+
+    // Help Routes
+    Route::get('/help', [HelpController::class , 'index'])->name('help.index');
 
     // Gestion des utilisateurs (admin only)
     Route::middleware([AdminOnly::class])->group(function () {
