@@ -1,24 +1,66 @@
+/* ============================================================
+   style_profile.css — Mon Profil
+   Color palette: green-teal professional theme
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
+
 :root {
-    --bg-color: #f4f7f5;
-    --card-bg: #ffffff;
     --accent: #3a7d5c;
-    --accent-hover: #2a6048;
+    --accent-light: #eaf3ee;
+    --accent-mid: #c4ddd0;
+    --accent-glow: rgba(58, 125, 92, .15);
+    --accent-dark: #2a6048;
     --text-primary: #1a2b22;
     --text-secondary: #4a6358;
-    --border-color: #dce8e1;
-    --shadow: 0 4px 20px rgba(26, 43, 34, 0.08);
+    --text-muted: #8aad9c;
+    --text-label: #6b8c7d;
+    --border: #dce8e1;
+    --bg-field: #f4f7f5;
+    --error: #c0392b;
+    --error-bg: #fdf2f1;
+    --error-border: #f0b8b3;
+    --success-bg: #eaf3ee;
+    --success-border: #a8d4ba;
+    --success-text: #1e6644;
+    --ease: cubic-bezier(.4, 0, .2, 1);
+
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+    --radius-xl: 28px;
+    --shadow-sm: 0 1px 3px rgba(26, 43, 34, .06), 0 1px 2px rgba(26, 43, 34, .04);
+    --shadow-md: 0 4px 16px rgba(26, 43, 34, .08), 0 2px 6px rgba(26, 43, 34, .05);
+    --shadow-lg: 0 12px 40px rgba(26, 43, 34, .10), 0 4px 12px rgba(26, 43, 34, .06);
+    --transition: 200ms var(--ease);
 }
 
+/* ── Reset ──────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── Page wrapper ───────────────────────────────────────── */
 .profile-container {
-    max-width: 900px;
-    margin: 2rem auto;
-    animation: fadeIn 0.5s ease-out;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-primary);
+    background: var(--bg-field);
+    min-height: 100vh;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    animation: fadeIn .35s var(--ease) both;
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(14px);
     }
 
     to {
@@ -27,73 +69,148 @@
     }
 }
 
+/* ── Page header ────────────────────────────────────────── */
 .profile-header {
-    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .profile-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 700;
     color: var(--text-primary);
+    letter-spacing: -.03em;
 }
 
+.text-secondary {
+    font-size: .875rem;
+    color: var(--text-label);
+}
+
+/* ── Success alert ──────────────────────────────────────── */
+.alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 18px;
+    border-radius: var(--radius-md);
+    font-size: .875rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+}
+
+.alert-success {
+    background: var(--success-bg);
+    border-color: var(--success-border);
+    color: var(--success-text);
+    border-left: 3px solid var(--accent);
+}
+
+.alert-success::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231e6644' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 11.08V12a10 10 0 1 1-5.93-9.14'/%3E%3Cpolyline points='22 4 12 14.01 9 11.01'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+/* ── Main card ──────────────────────────────────────────── */
 .profile-card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 2.5rem;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border-color);
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
 }
 
+/* ── Grid layout ────────────────────────────────────────── */
 .profile-grid {
     display: grid;
-    grid-template-columns: 250px 1fr;
-    gap: 3rem;
+    grid-template-columns: 280px 1fr;
 }
 
-@media (max-width: 768px) {
-    .profile-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
+/* ── Photo section (left column) ───────────────────────── */
 .photo-section {
-    text-align: center;
+    padding: 40px 32px;
+    background: linear-gradient(160deg, var(--accent-light) 0%, #f0f8f4 100%);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative ring */
+.photo-section::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 1px solid var(--accent-mid);
+    opacity: .35;
+    top: -100px;
+    right: -80px;
+    pointer-events: none;
+}
+
+.photo-section h3 {
+    font-size: .9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--text-label);
+    align-self: flex-start;
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Photo display ──────────────────────────────────────── */
+.current-photo,
+.photo-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 4px var(--accent-glow), var(--shadow-md);
+    position: relative;
+    z-index: 1;
+    transition: box-shadow var(--transition);
 }
 
 .current-photo {
-    width: 180px;
-    height: 180px;
-    border-radius: 20px;
     object-fit: cover;
-    border: 4px solid var(--border-color);
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: block;
 }
 
 .photo-placeholder {
-    width: 180px;
-    height: 180px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-    color: white;
+    background: linear-gradient(135deg, #2a6048, #3a7d5c);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 700;
-    margin: 0 auto 1.5rem;
-    border: 4px solid var(--border-color);
+    color: #fff;
+    letter-spacing: -.02em;
 }
 
+.current-photo:hover,
+.photo-placeholder:hover {
+    box-shadow: 0 0 0 6px var(--accent-glow), var(--shadow-lg);
+}
+
+/* ── Photo action buttons ───────────────────────────────── */
 .photo-actions {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
-    align-items: center;
-    max-width: 220px;
-    margin: 0 auto;
+    gap: 8px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .upload-btn,
@@ -101,117 +218,212 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 7px;
     width: 100%;
-    padding: 0.7rem 1.2rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .82rem;
     font-weight: 500;
-    transition: all 0.3s ease;
-    border: none;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition),
+        border-color var(--transition), box-shadow var(--transition),
+        transform var(--transition);
     text-align: center;
     white-space: nowrap;
 }
 
+.upload-btn:active,
+.delete-photo-btn:active {
+    transform: translateY(1px);
+}
+
 .upload-btn {
     background: var(--accent);
-    color: white;
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 2px 8px rgba(58, 125, 92, .25);
 }
 
 .upload-btn:hover {
-    background: var(--accent-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(58, 125, 92, 0.2);
-}
-
-#profile_photo {
-    display: none;
+    background: var(--accent-dark);
+    box-shadow: 0 4px 14px rgba(58, 125, 92, .35);
 }
 
 .delete-photo-btn {
-    background: #c0593a;
-    color: white;
+    background: transparent;
+    color: var(--error);
+    border: 1.5px solid var(--error-border);
 }
 
 .delete-photo-btn:hover {
-    background: #a0492e;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(192, 89, 58, 0.2);
+    background: var(--error-bg);
+    border-color: var(--error);
 }
 
-.photo-actions form {
-    width: 100%;
+.delete-photo-btn svg,
+.upload-btn svg {
+    flex-shrink: 0;
+}
+
+/* ── Form section (right column) ───────────────────────── */
+.form-section {
+    padding: 40px 40px;
 }
 
 .form-section h3 {
-    margin-bottom: 1.5rem;
-    color: var(--text-primary);
-    font-size: 1.2rem;
-    border-bottom: 2px solid var(--bg-color);
-    padding-bottom: 0.5rem;
+    font-size: .9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--text-label);
+    margin-bottom: 24px;
 }
 
+/* ── Form elements ──────────────────────────────────────── */
 .form-group {
-    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-    font-size: 0.9rem;
+    font-size: .79rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-label);
 }
 
 .form-input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    color: var(--text-primary);
+    background: var(--bg-field);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
     width: 100%;
-    padding: 0.8rem 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 0.95rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition),
+        background var(--transition);
+    resize: vertical;
+}
+
+.form-input::placeholder {
+    color: var(--text-muted);
 }
 
 .form-input:focus {
-    outline: none;
+    background: #ffffff;
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(58, 125, 92, 0.1);
+    box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
+.form-input.is-invalid {
+    border-color: var(--error);
+    background: var(--error-bg);
+}
+
+.form-input.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(192, 57, 43, .12);
+}
+
+textarea.form-input {
+    min-height: 90px;
+    line-height: 1.55;
+}
+
+/* ── Error message ──────────────────────────────────────── */
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: .78rem;
+    color: var(--error);
+    font-weight: 500;
+}
+
+.error-message::before {
+    content: '';
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c0392b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'/%3E%3Cline x1='12' y1='9' x2='12' y2='13'/%3E%3Cline x1='12' y1='17' x2='12.01' y2='17'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+/* ── Submit button ──────────────────────────────────────── */
 .submit-btn {
-    width: 100%;
-    padding: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 24px;
     background: var(--accent);
-    color: white;
+    color: #ffffff;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .88rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 1rem;
+    box-shadow: 0 2px 8px rgba(58, 125, 92, .25);
+    transition: background var(--transition), box-shadow var(--transition),
+        transform var(--transition);
+}
+
+.submit-btn::before {
+    content: '';
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z'/%3E%3Cpolyline points='17 21 17 13 7 13 7 21'/%3E%3Cpolyline points='7 3 7 8 15 8'/%3E%3C/svg%3E") center/contain no-repeat;
 }
 
 .submit-btn:hover {
-    background: var(--accent-hover);
-    box-shadow: 0 4px 12px rgba(58, 125, 92, 0.2);
+    background: var(--accent-dark);
+    box-shadow: 0 4px 14px rgba(58, 125, 92, .35);
 }
 
-.alert {
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
+.submit-btn:active {
+    transform: translateY(1px);
 }
 
-.alert-success {
-    background: #eaf3ee;
-    color: #1e4531;
-    border: 1px solid #c4ddd0;
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 20px 14px;
+    }
+
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-section {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 32px 24px;
+    }
+
+    .form-section {
+        padding: 28px 24px;
+    }
 }
 
-.error-message {
-    color: #c0593a;
-    font-size: 0.85rem;
-    margin-top: 0.4rem;
+@media (max-width: 480px) {
+    .profile-container {
+        padding: 16px 10px;
+    }
+
+    .photo-section,
+    .form-section {
+        padding: 24px 16px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
