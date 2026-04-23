@@ -29,9 +29,19 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         [x-cloak] { display: none !important; }
+        .calendar-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
         .calendar-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
+            grid-template-columns: repeat(7, minmax(120px, 1fr));
+        }
+        @media (max-width: 768px) {
+            .calendar-grid {
+                grid-template-columns: repeat(7, minmax(100px, 1fr));
+            }
         }
         /* Overrides to ensure consistency with global variables */
         .bg-medical-blue { background-color: var(--accent); }
@@ -79,7 +89,8 @@
                     </div>
                 </div>
 
-                <div class="calendar-grid mb-2">
+                <div class="calendar-container">
+                    <div class="calendar-grid mb-2">
                     <template x-for="day in daysOfWeek">
                         <div class="text-center text-xs font-bold text-gray-400 uppercase py-2" x-text="day"></div>
                     </template>

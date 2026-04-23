@@ -37,7 +37,7 @@ body, .content {
 .topbar {
     background: linear-gradient(135deg, #1e3a30 0%, var(--accent) 100%) !important;
     padding: 2rem 2.5rem !important;
-    margin: -1.5rem -1.5rem 2.5rem -1.5rem !important;
+    margin: -40px -40px 2.5rem -40px !important; /* Adjusted to match main-content padding */
     border-radius: 0 0 32px 32px !important;
     position: relative;
     overflow: hidden;
@@ -57,10 +57,10 @@ body, .content {
     color: rgba(255, 255, 255, 0.8) !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
     .topbar {
         padding: 1.5rem !important;
-        margin: -1rem -1rem 1.5rem -1rem !important;
+        margin: -24px -16px 1.5rem -16px !important; /* Adjusted for mobile main-content padding */
         border-radius: 0 0 20px 20px !important;
     }
     .topbar-title { font-size: 1.25rem !important; }
@@ -70,9 +70,16 @@ body, .content {
 /* ─── STATS GRID ─────────────────────────────────── */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.5rem;
     margin-bottom: 2rem;
+}
+
+@media (max-width: 640px) {
+    .stats-grid {
+        grid-template-columns: 1fr; /* Single column on small mobile */
+        gap: 1rem;
+    }
 }
 
 .stat-card {
@@ -160,17 +167,16 @@ body, .content {
 .chart-card {
     background: var(--surface);
     border-radius: var(--radius);
-    padding: 1rem;
+    padding: 1.25rem;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    max-height: 300px;
+    min-height: 350px; /* Increased for better visibility */
 }
 
 .distribution-grid .chart-card {
-    min-height: 180px;
-    max-height: 220px;
+    min-height: 250px;
 }
 
 .chart-card h3 {

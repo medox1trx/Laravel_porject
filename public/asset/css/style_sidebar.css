@@ -81,6 +81,8 @@ body {
   display: flex;
   min-height: 100vh;
   color: var(--text-primary);
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  width: 100%;
 }
 
 /* SIDEBAR */
@@ -483,6 +485,8 @@ body {
   padding: 40px;
   color: var(--main-content-color);
   transition: margin-left var(--dur-med) var(--ease-smooth), padding var(--dur-med) var(--ease-smooth);
+  min-width: 0; /* Important for flex children to allow shrinking */
+  width: calc(100% - var(--sidebar-width));
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -510,6 +514,7 @@ body {
     margin-left: 0;
     padding: 24px 16px;
     width: 100%;
+    max-width: 100vw;
   }
 
   /* Overlay for mobile sidebar */

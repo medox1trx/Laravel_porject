@@ -182,6 +182,9 @@ body {
     overflow-x: auto;
     border-radius: var(--radius-md);
     border: 1px solid var(--border);
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    margin-bottom: 1rem;
 }
 
 .table, .app-table {
@@ -217,6 +220,39 @@ body {
 
 .table tr:hover td, .app-table tr:hover td {
     background-color: var(--accent-light);
+}
+
+@media (max-width: 768px) {
+    .app-table thead {
+        display: none;
+    }
+    .app-table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--bg-card);
+    }
+    .app-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+        padding: 12px 16px;
+        border-bottom: 1px dashed var(--border);
+    }
+    .app-table td:last-child {
+        border-bottom: none;
+    }
+    .app-table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        color: var(--text-label);
+        margin-right: 1rem;
+        text-align: left;
+    }
 }
 
 /* Forms */
@@ -356,8 +392,14 @@ body {
 
 .app-form-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
+}
+
+@media (max-width: 640px) {
+    .app-form-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Custom Toggles */
@@ -398,6 +440,21 @@ input[type="checkbox"]:checked + .app-toggle-card {
     align-items: center;
     margin-bottom: 30px;
     box-shadow: var(--shadow-md);
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+@media (max-width: 640px) {
+    .app-profile-header {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .app-profile-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
 }
 
 .app-profile-main {
