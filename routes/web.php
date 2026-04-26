@@ -84,7 +84,7 @@ Route::middleware(['auth'])->group(function () {
     // Route personnalisée pour listAll
     Route::get('/patients/listAll', [PatientController::class , 'listAll'])
         ->name('patients.dashboardPatient.listAll');
-    Route::resource('patients', PatientController::class);
+    Route::resource('patients', PatientController::class)->except(['store']);
 
     // Routes pour les appointments
     // Routes pour les appointments (Agenda)
