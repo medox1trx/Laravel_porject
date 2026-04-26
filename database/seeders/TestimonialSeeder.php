@@ -2,41 +2,39 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Testimonial;
 use Illuminate\Database\Seeder;
 
 class TestimonialSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        \App\Models\Testimonial::create([
-            'name' => 'Sophie Martin',
-            'role' => 'Patiente depuis 2 ans',
-            'content' => 'Le système de prise de rendez-vous est révolutionnaire. Plus besoin d\'attendre au téléphone, tout est fluide et instantané.',
-            'rating' => 5,
-            'image' => 'assets/images/testimonials/sophie.png',
-            'is_active' => true,
-        ]);
+        $testimonials = [
+            [
+                'name' => 'Soufiane El Bahri',
+                'role' => 'Patient Régulier',
+                'content' => 'Une expérience exceptionnelle. La prise de rendez-vous est intuitive et le suivi médical est d\'une qualité rare. Je recommande vivement ce cabinet.',
+                'rating' => 5,
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Laila Benjelloun',
+                'role' => 'Maman de 2 enfants',
+                'content' => 'Enfin un cabinet qui comprend l\'importance du numérique. Plus besoin d\'attendre au téléphone, tout se fait en quelques clics. Très pratique pour les parents.',
+                'rating' => 5,
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Mehdi Alami',
+                'role' => 'Patient',
+                'content' => 'Le personnel est accueillant et les outils technologiques facilitent vraiment la vie. Le dossier médical partagé est un vrai plus pour mon suivi.',
+                'rating' => 4,
+                'is_active' => true,
+            ],
+        ];
 
-        \App\Models\Testimonial::create([
-            'name' => 'Jean Dupont',
-            'role' => 'Père de famille',
-            'content' => 'Les ordonnances numériques sont tellement pratiques. Plus de risque de les perdre, tout est centralisé sur mon espace patient.',
-            'rating' => 5,
-            'image' => 'assets/images/testimonials/jean.png',
-            'is_active' => true,
-        ]);
-
-        \App\Models\Testimonial::create([
-            'name' => 'Léa Bernard',
-            'role' => 'Nouvelle patiente',
-            'content' => 'Une approche moderne de la médecine qui ne sacrifie pas le côté humain. Je me sens écoutée et accompagnée.',
-            'rating' => 5,
-            'image' => 'assets/images/testimonials/lea.png',
-            'is_active' => true,
-        ]);
+        foreach ($testimonials as $testimonial) {
+            Testimonial::create($testimonial);
+        }
     }
 }

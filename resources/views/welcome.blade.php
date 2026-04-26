@@ -175,17 +175,17 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
-                @foreach($testimonials as $testimonial)
+            <div class="flex flex-wrap justify-center gap-8 md:gap-10">
+                @forelse($testimonials as $testimonial)
                 <!-- Dynamic Review -->
-                <div class="glass p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between hover:translate-y-[-10px] transition-all duration-500 group" data-gsap="reveal">
+                <div class="glass p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between hover:translate-y-[-10px] transition-all duration-500 group w-full md:w-[calc(33.333%-1.7rem)] min-w-[300px]" data-gsap="reveal">
                     <div>
                         <div class="flex gap-1 text-emerald-500 mb-6">
                             @for($i=0; $i<5; $i++)
                                 <svg class="w-5 h-5 {{ $i < $testimonial->rating ? 'fill-current' : 'text-slate-300 fill-none stroke-current' }} transition-transform group-hover:scale-110" style="transition-delay: {{ $i * 50 }}ms" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                             @endfor
                         </div>
-                        <p class="text-xl md:text-2xl font-serif text-slate-800 leading-relaxed mb-8 italic">
+                        <p class="text-xl font-serif text-slate-800 leading-relaxed mb-8 italic">
                             "{{ $testimonial->content }}"
                         </p>
                     </div>
@@ -205,7 +205,15 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
+                @empty
+                <!-- Empty State -->
+                <div class="text-center py-20 opacity-40">
+                    <svg class="w-20 h-20 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                    <p class="font-serif text-2xl">Aucun témoignage pour le moment.</p>
+                </div>
+                @endforelse
             </div>
 
             <!-- Review Submission Form -->
@@ -253,7 +261,7 @@
                                           placeholder="Racontez-nous votre expérience..."></textarea>
                             </div>
 
-                            <button type="submit" class="w-full btn-premium bg-emerald-500 text-white shadow-xl shadow-emerald-500/20 group magnetic">
+                            <button type="submit" class="w-full btn-premium bg-emerald-500 text-white shadow-xl shadow-emerald-500/20 group magnetic justify-center">
                                 Publier mon avis
                                 <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                             </button>

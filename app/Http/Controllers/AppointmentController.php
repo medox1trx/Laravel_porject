@@ -103,8 +103,8 @@ class AppointmentController extends Controller
         $rules = [
             'patient_id'     => 'required|exists:patients,id',
             'date'           => 'required|date|after_or_equal:today',
-            'start_time'     => 'required',
-            'end_time'       => 'nullable',
+            'start_time'     => 'required|date_format:H:i',
+            'end_time'       => 'nullable|date_format:H:i|after:start_time',
             'type'           => 'nullable|string',
             'status'         => 'nullable|in:planned,urgent',
             'notes'          => 'nullable|string',
@@ -140,7 +140,7 @@ class AppointmentController extends Controller
             ->where('status', '!=', 'cancelled')
             ->where(function ($q) use ($validated) {
                 $q->where('start_time', '<', $validated['end_time'])
-                  ->where('end_time',   '>', $validated['start_time']);
+                  ->where('end_time', '>', $validated['start_time']);
             })->exists();
 
         if ($doctorConflict) {

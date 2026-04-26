@@ -149,8 +149,8 @@ class PatientPortalController extends Controller
         $validated = $request->validate([
             'doctor_id'  => 'required|exists:doctors,id',
             'date'       => 'required|date|after_or_equal:today',
-            'start_time' => 'required',
-            'end_time'   => 'required|after:start_time',
+            'start_time' => 'required|date_format:H:i',
+            'end_time'   => 'required|date_format:H:i|after:start_time',
             'type'       => 'required|string',
             'notes'      => 'nullable|string|max:500',
         ]);

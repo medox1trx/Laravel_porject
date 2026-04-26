@@ -113,6 +113,8 @@
             display: flex;
             flex-direction: column;
             gap: 32px;
+            max-width: 1600px;
+            margin: 0 auto;
         }
         @media (min-width: 1200px) {
             .agenda-flex-wrapper {
@@ -125,11 +127,28 @@
                 min-width: 0 !important;
             }
             .agenda-planning-col {
-                width: 420px !important;
+                width: 460px !important;
                 flex-shrink: 0 !important;
                 position: sticky;
                 top: 24px;
+                max-height: calc(100vh - 48px);
+                display: flex;
+                flex-direction: column;
             }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-mid);
         }
 
         /* Status Colors Overrides */
@@ -259,66 +278,59 @@
                 </div>
 
                 <!-- Appointments List -->
-                <div class="flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-320px)] lg:pr-2 px-1">
+                <div class="flex flex-col gap-3 overflow-y-auto custom-scrollbar pr-2 flex-1">
                     <template x-if="dailyAppointments.length === 0">
                         <div
                             class="bg-white dark:bg-[#1a2420] rounded-3xl border border-dashed border-border-custom p-10 text-center flex flex-col items-center">
                             <div
-                                class="bg-bg-page w-20 h-20 rounded-full flex items-center justify-center mb-6 border border-border-custom">
-                                <svg class="w-10 h-10 text-text-muted opacity-30" fill="none" stroke="currentColor"
+                                class="bg-bg-page w-16 h-16 rounded-full flex items-center justify-center mb-4 border border-border-custom">
+                                <svg class="w-8 h-8 text-text-muted opacity-30" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                                     </path>
                                 </svg>
                             </div>
-                            <h4 class="text-text-primary font-bold text-lg mb-1">Journée calme</h4>
-                            <p class="text-sm text-text-secondary">Aucun rendez-vous pour cette date</p>
+                            <h4 class="text-text-primary font-bold text-base mb-1">Journée calme</h4>
+                            <p class="text-xs text-text-secondary">Aucun rendez-vous pour cette date</p>
                         </div>
                     </template>
                     
                     <template x-for="apt in dailyAppointments">
                         <div @click="viewDetails(apt)"
-                            class="rdv-card rounded-2xl p-5 cursor-pointer"
+                            class="rdv-card rounded-2xl p-4 cursor-pointer border border-border-custom hover:border-accent-mid transition-all"
                             :class="getStatusBorder(apt.status)">
-                            <div class="flex justify-between items-start mb-4">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-xl bg-accent-light flex items-center justify-center text-accent font-bold text-lg"
-                                        x-text="apt.patient.name.substring(0,2).toUpperCase()"></div>
-                                    <div>
-                                        <h4 class="font-bold text-text-primary leading-tight text-lg" x-text="apt.patient.name"></h4>
-                                        <div class="flex items-center gap-2 mt-1">
-                                            <span class="text-[11px] font-bold text-accent uppercase tracking-wider" x-text="'Dr. ' + apt.doctor.last_name"></span>
-                                            <span class="w-1 h-1 rounded-full bg-border-custom"></span>
-                                            <span class="text-[11px] text-text-secondary font-medium" x-text="apt.type"></span>
+                            
+                            <div class="flex items-center gap-4">
+                                <!-- Time Side -->
+                                <div class="flex flex-col items-center justify-center min-w-[65px] py-1 border-r border-border-custom/50 pr-4">
+                                    <span class="text-sm font-bold text-text-primary" x-text="apt.start_time.substring(0,5)"></span>
+                                    <span class="text-[10px] font-bold text-text-muted mt-0.5" x-text="apt.end_time.substring(0,5)"></span>
+                                </div>
+
+                                <!-- Info Side -->
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <h4 class="font-bold text-text-primary truncate text-sm" x-text="apt.patient.name"></h4>
+                                        <div class="flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border"
+                                            :class="getStatusBadge(apt.status)">
+                                            <span x-text="translateStatus(apt.status)"></span>
                                         </div>
                                     </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-[10px] font-semibold text-accent uppercase" x-text="'Dr. ' + apt.doctor.last_name"></span>
+                                        <span class="w-1 h-1 rounded-full bg-border-custom"></span>
+                                        <span class="text-[10px] text-text-muted truncate" x-text="apt.type"></span>
+                                    </div>
                                 </div>
-                                <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest border"
-                                    :class="getStatusBadge(apt.status)">
-                                    <span x-html="getStatusIcon(apt.status)"></span>
-                                    <span x-text="translateStatus(apt.status)"></span>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center justify-between pt-4 border-t border-border-custom/50 mt-2">
-                                <div class="flex items-center gap-2 text-text-secondary">
-                                    <svg class="w-4 h-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="text-sm font-bold tracking-tight"
-                                        x-text="apt.start_time.substring(0,5) + ' - ' + apt.end_time.substring(0,5)"></span>
-                                </div>
-                                <div class="flex -space-x-2">
+
+                                <!-- Actions/Indicators -->
+                                <div class="flex flex-col gap-1">
                                     <template x-if="apt.sms_reminder">
-                                        <div class="w-6 h-6 rounded-full bg-bg-page border border-border-custom flex items-center justify-center" title="SMS Activé">
-                                            <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-                                        </div>
+                                        <div class="w-2 h-2 rounded-full bg-accent" title="SMS"></div>
                                     </template>
                                     <template x-if="apt.email_reminder">
-                                        <div class="w-6 h-6 rounded-full bg-bg-page border border-border-custom flex items-center justify-center" title="Email Activé">
-                                            <svg class="w-3 h-3 text-accent" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                                        </div>
+                                        <div class="w-2 h-2 rounded-full bg-blue-400" title="Email"></div>
                                     </template>
                                 </div>
                             </div>

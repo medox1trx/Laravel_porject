@@ -12,7 +12,7 @@ class UtilisateursController extends Controller
 {
     public function index(Request $request): View
     {
-        $query = User::orderBy('name');
+        $query = User::where('role', '!=', 'patient')->orderBy('name');
 
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
@@ -28,7 +28,7 @@ class UtilisateursController extends Controller
 
         $users = $query->paginate(10)->withQueryString();
 
-        $totalUsers = User::count();
+        $totalUsers = User::where('role', '!=', 'patient')->count();
         $totalAdmins = User::where('role', 'admin')->count();
         $totalDoctors = User::where('role', 'doctor')->count();
         $totalNurses = User::where('role', 'nurse')->count();
