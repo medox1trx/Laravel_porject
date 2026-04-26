@@ -81,7 +81,6 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Routes pour les patients
-    Route::post('/patients/store', [PatientController::class , 'store'])->name('patients.store');
     // Route personnalisée pour listAll
     Route::get('/patients/listAll', [PatientController::class , 'listAll'])
         ->name('patients.dashboardPatient.listAll');
